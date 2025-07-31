@@ -57,7 +57,7 @@ const News = (props) => {
     let url = "";
 
     if (props.countries === "in") {
-      url = `http://api.mediastack.com/v1/news?access_key=${accessKey}&countries=${props.countries}&categories=${props.category}&languages=en&limit=${pageSize}&offset=${
+      url = `https://api.mediastack.com/v1/news?access_key=${accessKey}&countries=${props.countries}&categories=${props.category}&languages=en&limit=${pageSize}&offset=${
         (nextPage - 1) * pageSize
       }`;
     } else {
