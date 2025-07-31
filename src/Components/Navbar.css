@@ -1,0 +1,171 @@
+.navbar {
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+  background-color: white;
+  padding: 16px 24px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+
+.nav-links {
+  display: flex;
+  gap: 24px;
+  font-weight: 500;
+  color: #374151; /* Tailwind's gray-700 */
+}
+
+.nav-links a {
+  text-decoration: none;
+  color: inherit;
+  transition: color 0.3s ease;
+}
+
+.nav-links a:hover {
+  color: #2563eb; /* Hover color */
+}
+
+.search-bar input {
+  border: 1px solid #d1d5db;
+  border-radius: 6px;
+  padding: 6px 12px;
+  font-size: 0.875rem;
+  outline: none;
+}
+
+.search-bar input:focus {
+  border-color: #93c5fd; /* blue-300 */
+  box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.5); /* blue-500 ring effect */
+}
+
+/* Logo base style */
+.logo {
+  height: 100px;
+  width: auto;
+  object-fit: contain;
+  transition: transform 0.3s ease, filter 0.3s ease;
+  filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.2));
+}
+
+/* Hover effect for subtle dynamism */
+.logo:hover {
+  transform: scale(1.05);
+  filter: drop-shadow(0 4px 6px rgba(0, 0, 0, 0.3));
+  cursor: pointer;
+}
+
+/* Responsive tweak */
+@media (max-width: 600px) {
+  .logo {
+    height: 36px;
+  }
+}
+
+/* Civitas Times headline styling */
+.brand {
+  font-family: "Playfair Display", serif; /* Elegant serif font */
+  font-size: 2.5rem;
+  font-weight: 700;
+  letter-spacing: 1px;
+  color: #1a202c; /* Deep slate for authority */
+  text-transform: uppercase;
+  text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.2);
+  transition: all 0.3s ease;
+}
+
+.brand:hover {
+  color: #d97706; /* Bold amber accent */
+  transform: scale(1.03);
+  cursor: pointer;
+}
+
+
+.nav-list {
+  display: flex;
+  gap: 1rem;
+  flex-wrap: wrap;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  justify-content: center;
+}
+
+.nav-btn {
+  background-color: #f7f7f7;
+  border: 1px solid #d0d0d0;
+  color: #333;
+  padding: 0.5rem 1.2rem;
+  font-size: 0.9rem;
+  font-weight: 600;
+  text-transform: capitalize;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.nav-btn:hover {
+  background-color: #e0e0e0;
+  border-color: #b0b0b0;
+  color: #000;
+  transform: translateY(-1px);
+  box-shadow: 0 3px 6px rgba(0, 0, 0, 0.08);
+}
+
+.link {
+  text-decoration: none;
+  color: #1a2a6c;
+}
+
+.menu-toggle {
+  display: none;
+  background: none;
+  border: none;
+  font-size: 2rem;
+  cursor: pointer;
+}
+
+
+@media (max-width: 768px) {
+  .navbar {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .menu-toggle {
+    display: block;
+    position: absolute;
+    top: 24px;
+    right: 24px;
+  }
+
+  .nav-list {
+    flex-direction: column;
+    width: 100%;
+    display: none;
+  }
+
+  .nav-list.active {
+    display: flex;
+  }
+
+  .search-bar {
+    width: 100%;
+    margin-top: 1rem;
+  }
+
+  .search-bar input {
+    width: 100%;
+  }
+
+  .brand {
+    font-size: 1.5rem;
+    margin-top: 1rem;
+  }
+
+  .logo {
+    height: 48px;
+  }
+}
