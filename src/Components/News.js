@@ -11,37 +11,24 @@ const News = (props) => {
   const [pageSize] = useState(20);
   const [totalResults, setTotalResults] = useState(0);
 
-  const accessKey = "6f6f4480f0c9d611a74c5defdf7b9ad3"; // mediastack
-  const newsApiKey = "84ba0bee1f244231abd03afe7e1d83cb"; // newsapi
-
+  // 🔄 Runs when category or country changes
   useEffect(() => {
-    fetchNews(page);
-    // eslint-disable-next-line
-  }, []);
+    setPage(1);
+    setArticles([]);
+    fetchNews(1);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [props.category, props.countries]);
 
   const fetchNews = async (page) => {
     setLoading(true);
 
-    let url = "";
-
-    if (props.countries === "in") {
-      url = `http://api.mediastack.com/v1/news?access_key=${accessKey}&countries=${props.countries}&categories=${props.category}&languages=en&limit=${pageSize}&offset=${
-        (page - 1) * pageSize
-      }`;
-    } else if (props.countries === "us") {
-      url = `https://newsapi.org/v2/top-headlines?country=${props.countries}&category=${props.category}&pageSize=${pageSize}&page=${page}&apiKey=${newsApiKey}`;
-    } else {
-      setLoading(false);
-      return;
-    }
-
     try {
-      const response = await fetch(url);
+      const response = await fetch(`http://localhost:5000/api/news?page=${page}&country=${props.countries}&category=${props.category}`);
       const data = await response.json();
-      const newArticles = data.data || data.articles || [];
+      const newArticles = data.articles || [];
 
       setArticles(newArticles);
-      setTotalResults(data.pagination?.total || data.totalResults || newArticles.length);
+      setTotalResults(data.totalResults || newArticles.length);
       setPage(page);
     } catch (error) {
       console.error("Error fetching news:", error.message);
@@ -54,23 +41,13 @@ const News = (props) => {
     const nextPage = page + 1;
     setLoading(true);
 
-    let url = "";
-
-    if (props.countries === "in") {
-      url = `https://api.mediastack.com/v1/news?access_key=${accessKey}&countries=${props.countries}&categories=${props.category}&languages=en&limit=${pageSize}&offset=${
-        (nextPage - 1) * pageSize
-      }`;
-    } else {
-      url = `https://newsapi.org/v2/top-headlines?country=${props.countries}&category=${props.category}&pageSize=${pageSize}&page=${nextPage}&apiKey=${newsApiKey}`;
-    }
-
     try {
-      const response = await fetch(url);
+      const response = await fetch(`http://localhost:5000/api/news?page=${nextPage}&country=${props.countries}&category=${props.category}`);
       const data = await response.json();
-      const newArticles = data.data || data.articles || [];
+      const newArticles = data.articles || [];
 
       setArticles(prev => prev.concat(newArticles));
-      setTotalResults(data.pagination?.total || data.totalResults || totalResults);
+      setTotalResults(data.totalResults || totalResults);
       setPage(nextPage);
     } catch (error) {
       console.error("Error loading more news:", error.message);
@@ -94,19 +71,19 @@ const News = (props) => {
               imageUrl={article.image || article.urlToImage || fallback}
               newsUrl={article.url}
               author={article.author}
-              date={article.published_at || article.publishedAt}
+              date={article.publishedAt || article.published_at}
               source={article.source?.name || "Unknown"}
             />
           </div>
         ))}
       </div>
 
-      {articles.length < totalResults && (
-         <div className="text-center my-3">
-             <button className="btn btn-dark" onClick={fetchMoreData}>
-             Load More 
-           </button> 
-         </div>
+      {!loading && articles.length < totalResults && (
+        <div className="text-center my-3">
+          <button className="btn btn-dark" onClick={fetchMoreData}>
+            Load More
+          </button>
+        </div>
       )}
     </div>
   );
